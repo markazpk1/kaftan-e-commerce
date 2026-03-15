@@ -6,6 +6,7 @@ export interface Product {
   price: number;
   original_price?: number;
   image: string;
+  images?: string[];
   badge?: "New in" | "Sold out" | "Sale";
   category: string;
   style?: string;
@@ -22,6 +23,7 @@ export const getProducts = async (): Promise<Product[]> => {
       price: p.price,
       original_price: p.original_price || undefined,
       image: p.images?.[0] || "/placeholder.svg",
+      images: p.images || [],
       badge: p.original_price ? "Sale" : p.in_stock ? undefined : "Sold out",
       category: p.category || "",
       style: undefined, // Not in database schema
