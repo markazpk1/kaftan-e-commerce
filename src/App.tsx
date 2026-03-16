@@ -55,6 +55,7 @@ import { useAdminAuth } from "@/hooks/useAdminAuth";
 import AdminNotifications from "./pages/admin/AdminNotifications";
 import AdminSetup from "./pages/admin/AdminSetup";
 import RemovePrices from "./pages/admin/RemovePrices";
+import LogoManager from "./pages/admin/LogoManager";
 
 const queryClient = new QueryClient();
 
@@ -194,6 +195,7 @@ const AnimatedRoutes = () => {
             <Route path="notifications" element={<AdminNotifications />} />
             <Route path="settings" element={<AdminSettings />} />
             <Route path="remove-prices" element={<RemovePrices />} />
+            <Route path="logo-manager" element={<LogoManager />} />
           </Route>
 
           <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />

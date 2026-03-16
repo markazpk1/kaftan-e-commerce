@@ -7,6 +7,7 @@ import { useWishlist } from "@/contexts/WishlistContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCollections } from "@/hooks/useCollections";
 import SearchOverlay from "./SearchOverlay";
+import Logo from "./Logo";
 
 const whereToBuyLinks = [
   { label: "Ambia collections", url: "https://www.ambia.com.au/" },
@@ -49,8 +50,11 @@ const Navbar = () => {
         {/* Desktop Layout */}
         <div className="hidden lg:flex items-center px-6 xl:px-10 py-3">
           {/* Logo */}
-          <Link to="/" className="font-heading text-xl xl:text-2xl font-semibold tracking-wider text-primary uppercase shrink-0">
-            FashionSpectrum
+          <Link to="/" className="flex items-center gap-3 shrink-0">
+            <Logo type="header" size="lg" />
+            <span className="font-heading text-xl xl:text-2xl font-semibold tracking-wider text-primary uppercase">
+              FashionSpectrum
+            </span>
           </Link>
 
           {/* Nav Links */}
@@ -227,8 +231,11 @@ const Navbar = () => {
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
 
-          <Link to="/" className="font-heading text-lg sm:text-xl font-semibold tracking-wider text-primary uppercase absolute left-1/2 -translate-x-1/2">
-            FashionSpectrum
+          <Link to="/" className="flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
+            <Logo type="header" size="md" />
+            <span className="font-heading text-lg sm:text-xl font-semibold tracking-wider text-primary uppercase">
+              FashionSpectrum
+            </span>
           </Link>
 
           <div className="flex items-center gap-3 z-10">

@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Package, ShoppingCart, Users, Tag, Star,
   Settings, BarChart3, ChevronLeft, ChevronRight, LogOut, Bell,
   Search, Menu, X, FileText, Truck, MessageSquare, Image, Percent,
-  Server, Mail, Megaphone
+  Server, Mail, Megaphone, ImageIcon
 } from "lucide-react";
 import NotificationDropdown from "@/components/admin/NotificationDropdown";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
+import Logo from "@/components/Logo";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/admin" },
@@ -28,6 +29,7 @@ const navItems = [
   { label: "Media", icon: Image, path: "/admin/media" },
   { label: "Messages", icon: MessageSquare, path: "/admin/messages" },
   { label: "Notifications", icon: Bell, path: "/admin/notifications" },
+  { label: "Logo Manager", icon: ImageIcon, path: "/admin/logo-manager" },
   { label: "Settings", icon: Settings, path: "/admin/settings" },
 ];
 
@@ -71,13 +73,11 @@ const AdminLayout = () => {
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="p-4 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-primary-foreground font-heading font-bold text-lg flex-shrink-0">
-          FS
-        </div>
+        <Logo type="admin" size="md" />
         {!collapsed && (
           <div>
-            <h1 className="font-heading text-lg font-semibold text-foreground leading-none">Fashion Spectrum</h1>
-            <p className="text-[10px] font-body text-muted-foreground uppercase tracking-widest">Admin Panel</p>
+            <div className="font-heading text-lg font-semibold text-foreground">Admin Panel</div>
+            <div className="font-body text-xs text-muted-foreground">Fashion Spectrum</div>
           </div>
         )}
       </div>
