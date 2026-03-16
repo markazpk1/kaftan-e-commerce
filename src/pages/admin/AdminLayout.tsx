@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard, Package, ShoppingCart, Users, Tag, Star,
@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
 
 const navItems = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/admin" },
@@ -35,6 +36,31 @@ const AdminLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAdmin, loading } = useAdminAuth();
+
+  // Redirect non-admin users
+  useEffect(() => {
+    if (!loading && !isAdmin) {
+      navigate('/admin/login', { replace: true });
+    }
+  }, [loading, isAdmin, navigate]);
+
+  // Show loading state while checking auth
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="font-body text-muted-foreground">Verifying admin access...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if not admin
+  if (!isAdmin) {
+    return null;
+  }
 
   const isActive = (path: string) => {
     if (path === "/admin") return location.pathname === "/admin";

@@ -38,23 +38,13 @@ export const useAdminAuth = () => {
           // Check admin role from user metadata
           const isAdminUser = currentUser.user_metadata?.role === 'admin';
           setIsAdmin(isAdminUser);
+          console.log('Admin role checked:', isAdminUser);
         } else {
-          // Check for fallback admin session
-          const fallbackSession = localStorage.getItem('admin-session');
-          if (fallbackSession) {
-            // Try to restore session
-            const { data: { session: restoredSession } } = await supabase.auth.getSession();
-            if (restoredSession?.user) {
-              const isAdminUser = restoredSession.user.user_metadata?.role === 'admin';
-              setIsAdmin(isAdminUser);
-              setUser(restoredSession.user);
-            } else {
-              localStorage.removeItem('admin-session');
-            }
-          }
+          setIsAdmin(false);
         }
       } catch (error) {
         console.error('Error checking initial session:', error);
+        setIsAdmin(false);
       } finally {
         setLoading(false);
       }

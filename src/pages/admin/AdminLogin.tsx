@@ -26,10 +26,9 @@ const AdminLogin = () => {
     e.preventDefault();
     setSubmitting(true);
     try {
-      const { useAdminAuth: _ } = await import("@/hooks/useAdminAuth");
       const { supabase } = await import("@/integrations/supabase/client");
       
-      // Try to sign in with admin bypass for unconfirmed emails
+      // Try to sign in with admin credentials
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
         // If email not confirmed, still try to proceed
@@ -52,8 +51,7 @@ const AdminLogin = () => {
         await supabase.auth.signOut();
         toast({ title: "Access denied", description: "You don't have admin privileges.", variant: "destructive" });
       } else {
-        // Force session persistence
-        localStorage.setItem('admin-session', 'true');
+        toast({ title: "Welcome back!", description: "Admin access granted." });
         navigate("/admin");
       }
     } catch (err: any) {
