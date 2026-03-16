@@ -15,8 +15,6 @@ import { useToast } from "@/hooks/use-toast";
 import heroKaftan1 from "@/assets/hero-kaftan-1.jpg";
 import heroKaftan2 from "@/assets/hero-kaftan-2.jpg";
 import heroKaftan3 from "@/assets/hero-kaftan-3.jpg";
-import heroKaftan4 from "@/assets/hero-kaftan-4.jpg";
-import heroKaftan5 from "@/assets/hero-kaftan-5.jpg";
 import collectionBannerImg from "@/assets/collection-banner.jpg";
 import aboutBrandImg from "@/assets/about-brand.jpg";
 
@@ -71,11 +69,9 @@ interface SectionMeta {
 
 // ---- Defaults ----
 const defaultHeroSlides: HeroSlide[] = [
-  { src: heroKaftan1, alt: "Luxurious jewel-toned kaftan collection" },
-  { src: heroKaftan2, alt: "Black and gold embroidered kaftan" },
-  { src: heroKaftan3, alt: "Turquoise and gold ornate kaftan" },
-  { src: heroKaftan4, alt: "White and gold bridal kaftan" },
-  { src: heroKaftan5, alt: "Crimson embroidered kaftan" },
+  { src: heroKaftan1, alt: "Safari Collection - Premium Kaftans" },
+  { src: heroKaftan2, alt: "Elegant Fashion Collection" },
+  { src: heroKaftan3, alt: "Luxury Resort Wear" },
 ];
 
 const defaultHomeContent = {
