@@ -506,41 +506,258 @@ const AdminSettings = () => {
           </div>
         </TabsContent>
 
-        {/* Other tabs would go here - for brevity, I'll add minimal versions */}
+        {/* Payments Tab */}
         <TabsContent value="payments" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Payment Settings</CardTitle>
-              <CardDescription>Configure payment methods</CardDescription>
+              <CardTitle className="flex items-center gap-2">
+                <CreditCard size={18} className="text-primary" />
+                Payment Methods
+              </CardTitle>
+              <CardDescription>Configure payment options for your store</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">Payment settings coming soon...</p>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label className="font-body text-sm font-medium">Cash on Delivery</Label>
+                  <p className="font-body text-xs text-muted-foreground">Allow customers to pay when they receive their order</p>
+                </div>
+                <Switch
+                  checked={settings.enable_cod}
+                  onCheckedChange={(checked) => update("enable_cod", checked)}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CreditCard size={18} className="text-primary" />
+                Stripe Configuration
+              </CardTitle>
+              <CardDescription>Set up Stripe payment processing</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label className="font-body text-sm font-medium">Enable Stripe</Label>
+                  <p className="font-body text-xs text-muted-foreground">Accept credit card payments via Stripe</p>
+                </div>
+                <Switch
+                  checked={stripe.enabled}
+                  onCheckedChange={(checked) => updateStripe("enabled", checked)}
+                />
+              </div>
+
+              {stripe.enabled && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="font-body text-sm font-medium">Test Mode</Label>
+                      <p className="font-body text-xs text-muted-foreground">Use test keys for development</p>
+                    </div>
+                    <Switch
+                      checked={!stripe.liveMode}
+                      onCheckedChange={(checked) => updateStripe("liveMode", !checked)}
+                    />
+                  </div>
+
+                  <div className="space-y-3">
+                    <div>
+                      <Label className="font-body text-xs uppercase text-muted-foreground">
+                        {stripe.liveMode ? "Live" : "Test"} Publishable Key
+                      </Label>
+                      <Input
+                        type="password"
+                        value={stripe.liveMode ? stripe.publishableKeyLive : stripe.publishableKeyTest}
+                        onChange={e => updateStripe(stripe.liveMode ? "publishableKeyLive" : "publishableKeyTest", e.target.value)}
+                        placeholder={stripe.liveMode ? "pk_live_..." : "pk_test_..."}
+                        className="mt-1 font-mono text-sm"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="font-body text-xs uppercase text-muted-foreground">
+                        {stripe.liveMode ? "Live" : "Test"} Secret Key
+                      </Label>
+                      <Input
+                        type="password"
+                        value={stripe.liveMode ? stripe.secretKeyLive : stripe.secretKeyTest}
+                        onChange={e => updateStripe(stripe.liveMode ? "secretKeyLive" : "secretKeyTest", e.target.value)}
+                        placeholder={stripe.liveMode ? "sk_live_..." : "sk_test_..."}
+                        className="mt-1 font-mono text-sm"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end">
+                    <Button
+                      onClick={saveStripeSettings}
+                      disabled={savingStripe}
+                      className="font-body text-xs"
+                    >
+                      {savingStripe ? <><Loader2 size={14} className="mr-1 animate-spin" /> Saving...</> : <><Save size={14} className="mr-1" /> Save Stripe Settings</>}
+                    </Button>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
 
+        {/* Notifications Tab */}
         <TabsContent value="notifications" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Notification Settings</CardTitle>
-              <CardDescription>Configure email and push notifications</CardDescription>
+              <CardTitle className="flex items-center gap-2">
+                <Mail size={18} className="text-primary" />
+                Email Notifications
+              </CardTitle>
+              <CardDescription>Configure email notification preferences</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">Notification settings coming soon...</p>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label className="font-body text-sm font-medium">Order Notifications</Label>
+                  <p className="font-body text-xs text-muted-foreground">Send email notifications for new orders</p>
+                </div>
+                <Switch
+                  checked={settings.order_notifications}
+                  onCheckedChange={(checked) => update("order_notifications", checked)}
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label className="font-body text-sm font-medium">Low Stock Alerts</Label>
+                  <p className="font-body text-xs text-muted-foreground">Alert when products are running low on stock</p>
+                </div>
+                <Switch
+                  checked={settings.low_stock_alerts}
+                  onCheckedChange={(checked) => update("low_stock_alerts", checked)}
+                />
+              </div>
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Smartphone size={18} className="text-primary" />
+                Customer Features
+              </CardTitle>
+              <CardDescription>Enable customer-facing features</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label className="font-body text-sm font-medium">Wishlist</Label>
+                  <p className="font-body text-xs text-muted-foreground">Allow customers to save items to wishlist</p>
+                </div>
+                <Switch
+                  checked={settings.enable_wishlist}
+                  onCheckedChange={(checked) => update("enable_wishlist", checked)}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="flex justify-end">
+            <Button
+              className="font-body text-xs tracking-wider uppercase"
+              onClick={saveSettings}
+              disabled={saving || !hasChanges}
+            >
+              {saving ? <><Loader2 size={14} className="mr-1 animate-spin" /> Saving...</> : <><Save size={14} className="mr-1" /> Save Changes</>}
+            </Button>
+          </div>
         </TabsContent>
 
+        {/* Security Tab */}
         <TabsContent value="security" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Security Settings</CardTitle>
-              <CardDescription>Manage security and password settings</CardDescription>
+              <CardTitle className="flex items-center gap-2">
+                <Shield size={18} className="text-primary" />
+                Store Security
+              </CardTitle>
+              <CardDescription>Manage security settings for your store</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">Security settings coming soon...</p>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label className="font-body text-sm font-medium">Maintenance Mode</Label>
+                  <p className="font-body text-xs text-muted-foreground">Temporarily disable customer access to the store</p>
+                </div>
+                <Switch
+                  checked={settings.maintenance_mode}
+                  onCheckedChange={(checked) => update("maintenance_mode", checked)}
+                />
+              </div>
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Key size={18} className="text-primary" />
+                Change Password
+              </CardTitle>
+              <CardDescription>Update your admin account password</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
+                {Object.entries(passwordData).map(([key, value]) => (
+                  <div key={key}>
+                    <Label className="font-body text-xs uppercase text-muted-foreground">
+                      {key === "currentPassword" ? "Current Password" : key === "newPassword" ? "New Password" : "Confirm New Password"}
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        type={showPasswords[key as keyof typeof showPasswords] ? "text" : "password"}
+                        value={value}
+                        onChange={e => setPasswordData(p => ({ ...p, [key]: e.target.value }))}
+                        placeholder={key === "currentPassword" ? "Enter current password" : key === "newPassword" ? "Enter new password" : "Confirm new password"}
+                        className="pr-10 font-mono text-sm"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowPasswords(p => ({ ...p, [key]: !p[key as keyof typeof showPasswords] }))}
+                        className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 p-0"
+                      >
+                        {showPasswords[key as keyof typeof showPasswords] ? <EyeOff size={14} /> : <Eye size={14} />}
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="font-body text-xs text-muted-foreground">Password must be at least 6 characters long</p>
+                <Button
+                  onClick={changePassword}
+                  disabled={changingPassword || !passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword}
+                  className="font-body text-xs"
+                >
+                  {changingPassword
+                    ? <><Loader2 size={14} className="mr-1 animate-spin" /> Changing...</>
+                    : <><Key size={14} className="mr-1" /> Change Password</>}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="flex justify-end">
+            <Button
+              className="font-body text-xs tracking-wider uppercase"
+              onClick={saveSettings}
+              disabled={saving || !hasChanges}
+            >
+              {saving ? <><Loader2 size={14} className="mr-1 animate-spin" /> Saving...</> : <><Save size={14} className="mr-1" /> Save Changes</>}
+            </Button>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
