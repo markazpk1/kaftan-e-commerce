@@ -503,6 +503,156 @@ const AdminSettings = () => {
                 )}
               </CardContent>
             </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ImageIcon className="h-5 w-5" />
+                  Footer Logo
+                </CardTitle>
+                <CardDescription>
+                  Logo displayed in website footer
+                  <span className="block text-xs mt-1">
+                    <strong>Location:</strong> Website Footer
+                  </span>
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 border rounded-lg flex items-center justify-center bg-muted">
+                    <img
+                      src={logos.footer_logo_url}
+                      alt="Current footer logo"
+                      className="max-w-full max-h-full object-contain"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">Current Logo</p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {logos.footer_logo_url}
+                    </p>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="space-y-3">
+                  <div>
+                    <Label htmlFor="footer-logo-upload" className="font-body text-sm">
+                      Upload New Logo
+                    </Label>
+                    <Input
+                      id="footer-logo-upload"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleLogoUpload('footer_logo_url', e)}
+                      disabled={uploadingLogo === 'footer_logo_url'}
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      PNG, JPG, or SVG (max 5MB)
+                    </p>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleLogoReset('footer_logo_url')}
+                      disabled={uploadingLogo === 'footer_logo_url'}
+                      className="flex items-center gap-2"
+                    >
+                      Reset to Default
+                    </Button>
+                  </div>
+                </div>
+
+                {uploadingLogo === 'footer_logo_url' && (
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                    Uploading...
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ImageIcon className="h-5 w-5" />
+                  Favicon
+                </CardTitle>
+                <CardDescription>
+                  Browser tab icon and bookmark icon
+                  <span className="block text-xs mt-1">
+                    <strong>Location:</strong> Browser Tab
+                  </span>
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 border rounded-lg flex items-center justify-center bg-muted">
+                    <img
+                      src={logos.favicon_url}
+                      alt="Current favicon"
+                      className="max-w-full max-h-full object-contain"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">Current Logo</p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {logos.favicon_url}
+                    </p>
+                  </div>
+                </div>
+
+                <Separator />
+
+                <div className="space-y-3">
+                  <div>
+                    <Label htmlFor="favicon-upload" className="font-body text-sm">
+                      Upload New Favicon
+                    </Label>
+                    <Input
+                      id="favicon-upload"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleLogoUpload('favicon_url', e)}
+                      disabled={uploadingLogo === 'favicon_url'}
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      PNG, JPG, or SVG (max 5MB)
+                    </p>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleLogoReset('favicon_url')}
+                      disabled={uploadingLogo === 'favicon_url'}
+                      className="flex items-center gap-2"
+                    >
+                      Reset to Default
+                    </Button>
+                  </div>
+                </div>
+
+                {uploadingLogo === 'favicon_url' && (
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                    Uploading...
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
 
